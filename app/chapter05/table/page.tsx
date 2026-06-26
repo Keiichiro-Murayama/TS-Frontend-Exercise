@@ -49,7 +49,7 @@ export default function TableSample() {
         <TableCaption>
           システムに登録されているユーザーの一覧です。
         </TableCaption>
-        <TableHeader>
+        <TableHeader className="bg-slate-50">
           <TableRow>
             <TableHead>
               <Checkbox
@@ -79,10 +79,10 @@ export default function TableSample() {
                   }
                 />
               </TableCell>
-              <TableCell className="font-medium">INV001</TableCell>
-              <TableCell>Paid</TableCell>
-              <TableCell>Credit Card</TableCell>
-              <TableCell className="text-right">.00</TableCell>
+              <TableCell className="font-medium">{row.id}</TableCell>
+              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.email}</TableCell>
+              <TableCell>{row.role}</TableCell>
             </TableRow>
           ))}
         </TableBody>
