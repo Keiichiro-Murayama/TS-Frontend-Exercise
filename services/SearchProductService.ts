@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
-import type { ISearchProductService } from "../interfaces/ISearchProductService";
-import type { IProductRepository } from "../interfaces/IProductRepository";
+import type { ISearchProductService } from "@/interfaces/ISearchProductService";
+import type { IProductRepository } from "@/interfaces/IProductRepository";
 import type { Product } from "@/models/Product";
 import { TYPES } from "@/di/types";
 /**

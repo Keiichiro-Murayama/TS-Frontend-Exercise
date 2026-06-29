@@ -1,3 +1,6 @@
+"use client";
+
+"use client";
 import Link from "next/link";
 import {
   Card,
@@ -7,8 +10,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+/**
+ * 演習 7-5 ログアウト機能を実装する
+ * インポートを変更する（signOut を追加）
+ */
+import { useSession, signOut } from "next-auth/react";
 
 export default function MenuPage() {
+  /**
+   * 演習 7-4 ログインUIを作成し、ログイン可能にする
+   */
+  // 追加：セッションの認証状態(status)のみを取得
+  const { status } = useSession();
+  // 追加: ログイン中かどうかを判定
+  const isAuthenticated = status === "authenticated";
+
   return (
     <div className="p-8 max-w-4xl mx-auto space-y-8">
       <div className="text-center space-y-2">
@@ -17,33 +33,41 @@ export default function MenuPage() {
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* メニュー1：ログイン */}
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardHeader>
-            <CardTitle>ログイン</CardTitle>
-            <CardDescription>システムにログインします</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild className="w-full">
-              <Link href="/api/auth/login">ログイン画面へ</Link>
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* メニュー2：ログアウト */}
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardHeader>
-            <CardTitle>ログアウト</CardTitle>
-            <CardDescription>
-              システムから安全にログアウトします
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild variant="outline" className="w-full">
-              <Link href="/api/auth/logout">ログアウトする</Link>
-            </Button>
-          </CardContent>
-        </Card>
+        {/* 変更： 未ログイン時のみ表示：ログイン */}
+        {!isAuthenticated && (
+          <Card className="hover:shadow-lg transition-shadow border-green-200">
+            <CardHeader>
+              <CardTitle>ログイン</CardTitle>
+              <CardDescription>システムにログインします</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button asChild className="w-full">
+                <Link href="/api/auth/login">ログイン画面へ</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+        {/* 変更： ログイン中のみ表示：ログアウト */}
+        {isAuthenticated && (
+          <Card className="hover:shadow-lg transition-shadow border-red-100">
+            <CardHeader>
+              <CardTitle>ログアウト</CardTitle>
+              <CardDescription>
+                システムから安全にログアウトします
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {/* LinkからButtonに変更して、signOut()関数を呼び出す */}
+              <Button
+                variant="outline"
+                className="w-full border-red-200 text-red-600 hover:bg-red-50"
+                onClick={() => signOut({ callbackUrl: "/" })}
+              >
+                ログアウト
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         {/* メニュー3：ユーザー登録 */}
         <Card className="hover:shadow-lg transition-shadow">
@@ -88,7 +112,7 @@ export default function MenuPage() {
           </CardContent>
         </Card>
 
-        {/* メニュー5：商品変更 */}
+        {/* メニュー6：商品変更 */}
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader>
             <CardTitle>商品の変更</CardTitle>

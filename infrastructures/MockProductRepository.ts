@@ -46,6 +46,9 @@ export class MockProductRepository implements IProductRepository {
     const filteredProducts = this.mockProducts.filter((product) =>
       product.name.includes(keyword),
     );
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     // asyncメソッドなので、自動的にPromiseでラップされて返却される
     return filteredProducts;
   }
