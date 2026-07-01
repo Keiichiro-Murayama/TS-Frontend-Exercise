@@ -12,4 +12,8 @@ export const TYPES = {
    */
   IUserRepository: Symbol.for("IUserRepository"),
   IRegisterUserService: Symbol.for("IRegisterUserService"),
+  /**
+   * 演習 8-9 リポジトリの実装を作成する
+   */
+  IProductCategoryRepository: Symbol.for("IProductCategoryRepository"),
 };

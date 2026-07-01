@@ -11,6 +11,21 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  AvatarBadge,
+} from "@/components/ui/avatar";
 /**
  * 演習 7-5 ログアウト機能を実装する
  * インポートを変更する（signOut を追加）
@@ -53,21 +68,7 @@ export default function Header() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
             )}
-            {/* メニュー2：ログアウト */}
-            {/* ログイン中のみ[ログアウト]を表示 */}
-            {status === "authenticated" && (
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={`${navigationMenuTriggerStyle()} text-green-900 bg-transparent hover:bg-green-200`}
-                >
-                  {/* Linkからbuttonに変更して、signOut()関数を呼び出す */}
-                  <button onClick={() => signOut({ callbackUrl: "/" })}>
-                    ログアウト
-                  </button>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            )}
+
             {/* メニュー3：ユーザー登録 */}
             <NavigationMenuItem>
               <NavigationMenuLink
@@ -107,6 +108,52 @@ export default function Header() {
                 <Link href="/api/products/update">商品変更</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
+            {/* ユーザーアバタードロップダウン（ログイン時のみ表示） */}
+            {status === "authenticated" && (
+              <NavigationMenuItem>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-full ml-4"
+                    >
+                      <Avatar>
+                        <AvatarImage
+                          src="https://github.com/shadcn.png"
+                          alt="shadcn"
+                        />
+                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarBadge className="bg-green-500 border-2 border-green-100 w-3 h-3 rounded-full" />
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent className="w-32">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link href="/profile">Profile</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/billing">Billing</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/settings">Settings</Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem
+                        variant="destructive"
+                        onClick={() => signOut({ callbackUrl: "/" })}
+                      >
+                        Log out
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </NavigationMenuItem>
+            )}
           </NavigationMenuList>
         </NavigationMenu>
       </div>
